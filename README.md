@@ -8,3 +8,6 @@
 # файлы override.tf, override.tf.json и файлы, оканчивающиеся на _override.tf, _override.tf.json
 # папка .terraformrc и файл terraform.rc 
 New Line
+
+# Lines below are added through PyCharm
+Line through IDE PyCharm
