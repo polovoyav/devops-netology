@@ -11,3 +11,5 @@ New Line
 
 # Lines below are added through PyCharm
 Line through IDE PyCharm
+
+Another line through IDE PyCharm
