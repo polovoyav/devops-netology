@@ -33,7 +33,7 @@ RAM 512 Мб, CPU 1 ядро, vHDD 64 Гб, video 4 Мб.
 Добавил в конфигурационный файл Vagrantfile строчки:
 
 
-config.vm.provider "virtualbox" do |v|
+config.vm.provider "virtualbox" do |v|  
 v.memory = 1024  
 v.cpus = 2  
 end
@@ -68,12 +68,10 @@ ignoredups не сохраняет записи, совпадающие с им�
 # 10)
 touch file_{0..100000} - создались
 
-touch file_{0..300000} - не создались
-
+touch file_{0..300000} - не создались  
 -bash: /usr/bin/touch: Argument list too long
 
-rm -f file_{0..300000} - удалить тоже не получается.
-
+rm -f file_{0..300000} - удалить тоже не получается  
 -bash: /usr/bin/rm: Argument list too long
 
 Если увеличить размер стека для пользователя командой ulimit -s 65535, то touch file_{0..300000} - выполняется успешно.
@@ -89,13 +87,10 @@ rm -f file_{0..300000} - удалить тоже не получается.
 
 # 12)
 $ echo $PATH  
-
 /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 $ type -a bash  
-
 bash is /usr/bin/bash  
-
 bash is /bin/bash
 
 $ mkdir /tmp/new_path_directory  
@@ -105,16 +100,11 @@ $ cp /bin/bash /tmp/new_path_directory
 $ PATH=/tmp/new_path_directory:$PATH  
 
 $ echo $PATH  
-
 /tmp/new_path_directory:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin  
 
-
 $ type -a bash  
-
 bash is /tmp/new_path_directory/bash  
-
 bash is /usr/bin/bash  
-
 bash is /bin/bash
 # =============================================
 
