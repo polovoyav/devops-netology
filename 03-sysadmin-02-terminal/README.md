@@ -15,16 +15,16 @@
 
 ## 2)
 
->vagrant@vagrant:~$ cd test/  
->vagrant@vagrant:~/test$ nano test_grep  
+>vagrant@vagrant:\~$ cd test/  
+>vagrant@vagrant:\~/test$ nano test_grep  
 >Hello  
 >world  
 >hi everybody  
 >wonderful world  
 >  
->vagrant@vagrant:~/test$ grep world test_grep | wc -l  
+>vagrant@vagrant:\~/test$ grep world test_grep | wc -l  
 >2  
->vagrant@vagrant:~/test$ grep world test_grep -c  
+>vagrant@vagrant:\~/test$ grep world test_grep -c  
 >2  
 
 ## 3)
@@ -91,9 +91,9 @@
 >/dev/tty2  
 
 #### В ssh терминале пишем:  
->vagrant@vagrant:~/test$ tty  
+>vagrant@vagrant:\~/test$ tty  
 >/dev/pts/0  
->vagrant@vagrant:~/test$ echo Hello world from /dev/pts/0 > /dev/tty2  
+>vagrant@vagrant:\~/test$ echo Hello world from /dev/pts/0 > /dev/tty2  
 
 #### В консоли видим:  
 >vagrant@vagrant:~$ Hello world from /dev/pts/0  
@@ -126,7 +126,7 @@ bash `5>&1` - мы создали файловый дескриптор `5` дл
 
 Создадим команду, которая выводит и ошибку и отклик в терминал:  
 >vagrant@vagrant:~$ ls -l /proc/$$/fd/{0,1,2,10}  
->ls: cannot access `/proc/2664/fd/10`: No such file or directory  
+>ls: cannot access '/proc/2664/fd/10': No such file or directory  
 >lrwx------ 1 vagrant vagrant 64 Dec  7 21:02 /proc/2664/fd/0 -> /dev/pts/1  
 >lrwx------ 1 vagrant vagrant 64 Dec  7 21:02 /proc/2664/fd/1 -> /dev/pts/1  
 >lrwx------ 1 vagrant vagrant 64 Dec  7 21:02 /proc/2664/fd/2 -> /dev/pts/1  
@@ -135,10 +135,11 @@ bash `5>&1` - мы создали файловый дескриптор `5` дл
 попадают в терминал `/dev/pts/1`. Поменяем файловые дескрипторы  
 `stdout` и `stderr` местами и отдадим новый `stdout` через pipe следующей  
 команде. Новый `stderr` будет выведен в шелл.  
->vagrant@vagrant:~$ ls -l /proc/$$/fd/{0,1,2,10} 3>&1 1>&2 2>&3 | grep cannot >f_stderr
->lrwx------ 1 vagrant vagrant 64 Dec  7 21:02 /proc/2664/fd/0 -> /dev/pts/1
->lrwx------ 1 vagrant vagrant 64 Dec  7 21:02 /proc/2664/fd/1 -> /dev/pts/1
->lrwx------ 1 vagrant vagrant 64 Dec  7 21:02 /proc/2664/fd/2 -> /dev/pts/1
+
+>vagrant@vagrant:~$ ls -l /proc/$$/fd/{0,1,2,10} 3>&1 1>&2 2>&3 | grep cannot >f_stderr  
+>lrwx------ 1 vagrant vagrant 64 Dec  7 21:02 /proc/2664/fd/0 -> /dev/pts/1  
+>lrwx------ 1 vagrant vagrant 64 Dec  7 21:02 /proc/2664/fd/1 -> /dev/pts/1  
+>lrwx------ 1 vagrant vagrant 64 Dec  7 21:02 /proc/2664/fd/2 -> /dev/pts/1  
 
 Прочитаем содержимое файла `f_stderr`:  
 >vagrant@vagrant:~$ cat f_stderr  
@@ -221,14 +222,15 @@ bash `5>&1` - мы создали файловый дескриптор `5` дл
 >vagrant@vagrant:~$ jobs -l  
 >[1]+   894 Stopped (signal)        top  
 >  
->vagrant@vagrant:~$ disown top  
+>vagrant@vagrant:\~$ disown top  
 >-bash: warning: deleting stopped job 1 with process group 894  
->vagrant@vagrant:~$ jobs -l  
->vagrant@vagrant:~$ ps -a  
+>vagrant@vagrant:\~$ jobs -l  
+>
+>vagrant@vagrant:\~$ ps -a  
 >    PID TTY          TIME CMD  
 >    894 pts/0    00:00:00 top  
 >    897 pts/0    00:00:00 ps  
->vagrant@vagrant:~$ reptyr 894  
+>vagrant@vagrant:\~$ reptyr 894  
 
 Получаем:  
 >top - 17:16:53 up 8 min,  2 users,  load average: 0.00, 0.05, 0.05  
