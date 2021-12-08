@@ -60,9 +60,9 @@
 >vagrant@vagrant:~/test$ ls -l /proc/$/fd/{0,1,2} 2>/dev/pts/1  
 
 #### Вывод stderr во второй терминал /dev/pts/1:  
->vagrant@vagrant:~$ ls: cannot access `/proc/$/fd/0`: No such file or directory  
->ls: cannot access `/proc/$/fd/1`: No such file or directory  
->ls: cannot access `/proc/$/fd/2`: No such file or directory  
+>vagrant@vagrant:~$ ls: cannot access '/proc/$/fd/0': No such file or directory  
+>ls: cannot access '/proc/$/fd/1': No such file or directory  
+>ls: cannot access '/proc/$/fd/2': No such file or directory  
 
 ## 5)
 
@@ -143,7 +143,7 @@ bash `5>&1` - мы создали файловый дескриптор `5` дл
 
 Прочитаем содержимое файла `f_stderr`:  
 >vagrant@vagrant:~$ cat f_stderr  
->ls: cannot access `/proc/2664/fd/10`: No such file or directory  
+>ls: cannot access '/proc/2664/fd/10': No such file or directory  
 
 ## 9)
 
@@ -191,7 +191,7 @@ bash `5>&1` - мы создали файловый дескриптор `5` дл
 >vagrant@localhost`s password:  
 >/dev/pts/2  
 >Connection to localhost closed.  
-
+>
 >vagrant@vagrant:~$  
 
 ## 13)
@@ -206,12 +206,13 @@ bash `5>&1` - мы создали файловый дескриптор `5` дл
 >For more information, see /etc/sysctl.d/10-ptrace.conf  
 >  
 >vagrant@vagrant:~$ sudo nano /etc/sysctl.d/10-ptrace.conf  
-
+>  
 Установил `kernel.yama.ptrace_scope = 0`  
 
 >vagrant@vagrant:~$ sudo reboot  
 >  
 >vagrant@vagrant:~$ top  
+>  
 
 Отправил в бэкграунд процесс с помощью `CTRL-Z`  
 >[1]+  Stopped                 top  
@@ -224,15 +225,16 @@ bash `5>&1` - мы создали файловый дескриптор `5` дл
 >  
 >vagrant@vagrant:\~$ disown top  
 >-bash: warning: deleting stopped job 1 with process group 894  
->vagrant@vagrant:\~$ jobs -l  
->
+>  
 >vagrant@vagrant:\~$ ps -a  
 >    PID TTY          TIME CMD  
 >    894 pts/0    00:00:00 top  
 >    897 pts/0    00:00:00 ps  
+>  
 >vagrant@vagrant:\~$ reptyr 894  
+>  
 
-Получаем:  
+Получаем вывод `top`:  
 >top - 17:16:53 up 8 min,  2 users,  load average: 0.00, 0.05, 0.05  
 >Tasks: 103 total,   2 running, 100 sleeping,   0 stopped,   1 zombie  
 >%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st  
@@ -255,12 +257,11 @@ bash `5>&1` - мы создали файловый дескриптор `5` дл
 >logout  
 >Connection to 127.0.0.1 closed.  
 >  
->PS C:\Users\andrew\VagrantVM> vagrant ssh  
->
 >Reconnect ssh, attach screen  
+>  
 >vagrant@vagrant:~$ screen -r  
 
-Видим `top`:  
+Видим работающий `top`:  
 >top - 17:26:12 up 17 min,  2 users,  load average: 0.31, 0.19, 0.11  
 >Tasks: 105 total,   1 running, 103 sleeping,   0 stopped,   1 zombie  
 >%Cpu(s):  0.0 us,  0.2 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.2 si,  0.0 st  
