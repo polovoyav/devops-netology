@@ -8,19 +8,19 @@
 
 Действительно, `strace` выводит все системные вызовы программы, их параметры и результат  
 выполнения в стандартный поток ошибок.  
->vagrant@sandbox:~$ strace -e chdir /bin/bash -c 'cd /tmp' 2>strace.log  
->vagrant@sandbox:~$ cat strace.log  
+>vagrant@sandbox:\~$ strace -e chdir /bin/bash -c 'cd /tmp' 2>strace.log  
+>vagrant@sandbox:\~$ cat strace.log  
 >chdir("/tmp")                           = 0  
 >+++ exited with 0 +++  
 
 ## 2)  
 Команда `file` выполняет определение типов переданных элементов файловой системы  
 (файлов, директорий, ссылок, именованных каналов и сокетов). Поищем файлы, которые  
-она открывает, т.е. использует системный вызов openat.  
+она открывает, т.е. использует системный вызов `openat`.  
 
->vagrant@sandbox:~$ strace -e trace=openat file /dev/tty  
+>vagrant@sandbox:\~$ strace -e trace=openat file /dev/tty  
 >...  
->vagrant@sandbox:~$ strace -e trace=openat file /dev/sda  
+>vagrant@sandbox:\~$ strace -e trace=openat file /dev/sda  
 >...  
 >vagrant@sandbox:~$ strace -e trace=openat file /bin/bash  
 >openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3  
@@ -45,16 +45,16 @@ magic number is found, and additional information to extract from the file.
 База - это файл `/usr/share/misc/magic.mgc`, `/etc/magic.mgc` - не существует, `/etc/magic` - пустой.
 
 ## 3)  
->vagrant@sandbox:~$ vagrant@sandbox:~$ ping localhost > f_stderr &  
+>vagrant@sandbox:\~$ ping localhost > f_stderr &  
 >[2] 1700  
-
->vagrant@sandbox:~$ ps -a  
+>  
+>vagrant@sandbox:\~$ ps -a  
 >    PID TTY          TIME CMD  
 >   1451 pts/0    00:00:00 man  
 >   1461 pts/0    00:00:00 pager  
 >   1700 pts/0    00:00:00 ping  
 >   1704 pts/0    00:00:00 ps  
-   
+>     
 >vagrant@sandbox:~$ ps aux | grep 1700  
 >vagrant     1700  0.0  0.2   9772  2832 pts/0    S    21:39   0:00 ping localhost  
 >vagrant     1707  0.0  0.0   8900   740 pts/0    R+   21:40   0:00 grep --color=auto 1700  
@@ -74,8 +74,8 @@ magic number is found, and additional information to extract from the file.
 >64 bytes from localhost (::1): icmp_seq=1 ttl=64 time=0.021 ms  
 >64 bytes from localhost (::1): icmp_seq=2 ttl=64 time=0.034 ms  
 >  
->vagrant@sandbox:~$ rm f_stderr  
->vagrant@sandbox:~$ cat f_stderr  
+>vagrant@sandbox:\~$ rm f_stderr  
+>vagrant@sandbox:\~$ cat f_stderr  
 >cat: f_stderr: No such file or directory  
 >vagrant@sandbox:~$ sudo lsof -p 1700 | grep f_stderr  
 >ping    1700 vagrant    1w   REG  253,0    15603 131092 /home/vagrant/f_stderr (deleted)  
@@ -85,16 +85,16 @@ magic number is found, and additional information to extract from the file.
 >64 bytes from localhost (::1): icmp_seq=1 ttl=64 time=0.021 ms  
 >64 bytes from localhost (::1): icmp_seq=2 ttl=64 time=0.034 ms  
 >  
->vagrant@sandbox:~$ sudo -i  
->root@sandbox:~# echo "" >/proc/1700/fd/1  
+>vagrant@sandbox:\~$ sudo -i  
+>root@sandbox:\~# echo "" >/proc/1700/fd/1  
 >root@sandbox:~# cat /proc/1700/fd/1  
 >  
 >64 bytes from localhost (::1): icmp_seq=749 ttl=64 time=0.037 ms  
 
 Файл очистился, но продолжает заполняться, так как процесс работает.  
 
->root@sandbox:~# kill 1700  
->root@sandbox:~# exit  
+>root@sandbox:\~# kill 1700  
+>root@sandbox:\~# exit  
 >logout  
 >[2]-  Terminated              ping localhost > f_stderr  
 
@@ -124,8 +124,8 @@ magic number is found, and additional information to extract from the file.
 >    raise Exception("Failed to compile BPF module %s" % (src_file or "<text>"))  
 >Exception: Failed to compile BPF module <text>  
 >  
->vagrant@sandbox:~$ sudo -i  
->root@sandbox:~# /usr/sbin/opensnoop-bpfcc -d 1  
+>vagrant@sandbox:\~$ sudo -i  
+>root@sandbox:\~# /usr/sbin/opensnoop-bpfcc -d 1  
 >PID    COMM               FD ERR PATH  
 >835    vminfo              4   0 /var/run/utmp  
 >566    dbus-daemon        -1   2 /usr/local/share/dbus-1/system-services  
@@ -140,8 +140,8 @@ magic number is found, and additional information to extract from the file.
 
 `uname` использует системный вызов `uname()`  
 
->vagrant@sandbox:~$ sudo apt install manpages-dev  
->vagrant@sandbox:~$ man 2 uname  
+>vagrant@sandbox:\~$ sudo apt install manpages-dev  
+>vagrant@sandbox:\~$ man 2 uname  
 >63        Part of the utsname information is also accessible via /proc/sys/kernel/{ostype,  
 >64        hostname, osrelease, version, domainname}.  
 >  
@@ -160,13 +160,13 @@ magic number is found, and additional information to extract from the file.
 выполнение после первой ошибки в цепочке команд и оболочка завершит работу. `set -e` часто ставится  
 вверху скрипта, чтобы убедиться, что скрипт будет остановлен при первой ошибке.  
 
->vagrant@sandbox:~$ set -e  
->vagrant@sandbox:~$ test -d /tmp/some_dir; echo Hi  
+>vagrant@sandbox:\~$ set -e  
+>vagrant@sandbox:\~$ test -d /tmp/some_dir; echo Hi  
 >Connection to 127.0.0.1 closed.  
 >PS C:\Users\andrew\VagrantVM>  
 >  
->vagrant@sandbox:~$ set -e  
->vagrant@sandbox:~$ test -d /tmp/some_dir && echo Hi  
+>vagrant@sandbox:\~$ set -e  
+>vagrant@sandbox:\~$ test -d /tmp/some_dir && echo Hi  
 >vagrant@sandbox:~$  
 
 Вывод: `&&` использовать c `set -e` видимо имеет смысл, если нужно избежать вылета оболочки при  
@@ -212,11 +212,11 @@ magic number is found, and additional information to extract from the file.
 Наиболее часто встречающийся статус у процессов S (спящие, ожидающие события завершения процесса) и  
 I (бездействующие процессы ядра).  
 
->vagrant@sandbox:~$ ps -eo stat | wc -l  
+>vagrant@sandbox:\~$ ps -eo stat | wc -l  
 >99  
->vagrant@sandbox:~$ ps -eo stat | grep -c S  
+>vagrant@sandbox:\~$ ps -eo stat | grep -c S  
 >51  
->vagrant@sandbox:~$ ps -eo stat | grep -c I  
+>vagrant@sandbox:\~$ ps -eo stat | grep -c I  
 >47  
->vagrant@sandbox:~$ ps -eo stat | grep -c R  
+>vagrant@sandbox:\~$ ps -eo stat | grep -c R  
 >1  
