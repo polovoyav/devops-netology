@@ -8,11 +8,12 @@
 Файлы юнитов загружаются из целого ряда мест, команда `systemctl show --property=UnitPath`  
 выведет полный список.  
 
->vagrant@sandbox:\~/Downloads/node_exporter-1.3.1.linux-amd64$ sudo useradd --system --no-create-home --shell /usr/sbin/nologin node_exporter  
+>vagrant@sandbox:\~$ sudo useradd --system --no-create-home --shell /usr/sbin/nologin node_exporter  
 >vagrant@sandbox:\~$ mkdir Downloads  
 >vagrant@sandbox:\~$ cd Downloads/  
 >vagrant@sandbox:\~/Downloads$ wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz  
 >vagrant@sandbox:\~/Downloads$ tar xzf node_exporter-1.3.1.linux-amd64.tar.gz  
+>  
 >vagrant@sandbox:\~$ sudo mv -v node_exporter /usr/local/bin  
 >renamed 'node_exporter' -> '/usr/local/bin/node_exporter'  
 >
@@ -23,19 +24,19 @@
 
 >vagrant@sandbox:\~$ sudo nano /etc/systemd/system/node-exporter.service  
 >
->[Unit]  
->Description=node_exporter for machine metrics  
->
->[Service]  
->Restart=always  
->User=node_exporter  
->ExecStart=/usr/local/bin/node_exporter  
->ExecReload=/bin/kill -HUP $MAINPID  
->TimeoutStopSec=20s  
->SendSIGKILL=no  
->
->[Install]  
->WantedBy=multi-user.target  
+> >[Unit]  
+> >Description=node_exporter for machine metrics  
+> >
+> >[Service]  
+> >Restart=always  
+> >User=node_exporter  
+> >ExecStart=/usr/local/bin/node_exporter  
+> >ExecReload=/bin/kill -HUP $MAINPID  
+> >TimeoutStopSec=20s  
+> >SendSIGKILL=no  
+> >
+> >[Install]  
+> >WantedBy=multi-user.target  
 
 >vagrant@sandbox:\~$ sudo systemctl daemon-reload  
 >vagrant@sandbox:\~$ sudo systemctl start node-exporter.service  
@@ -56,13 +57,13 @@
 >vagrant@sandbox:~$ sudo ss -pnltu | grep 9100  
 >tcp     LISTEN   0        4096                    *:9100                *:*      users:(("node_exporter",pid=1261,fd=3))  
 
->Порт проброшен на хост, на http://localhost:9100/metrics есть ответ:  
-![](//~/devops-netology/03-sysadmin-04-os/node_exporter_9100.png)
+Порт проброшен на хост, на http://localhost:9100/metrics есть ответ:  
+![node](//~/devops-netology/03-sysadmin-04-os/node_exporter_9100.png "node_exporter_9100.png")
 
 Смотрим на виртуалке:  
 >vagrant@sandbox:~$ curl http://localhost:9100/metrics  
-># HELP go_gc_duration_seconds A summary of the pause duration of garbage collection cycles.  
-># TYPE go_gc_duration_seconds summary  
+>\# HELP go_gc_duration_seconds A summary of the pause duration of garbage collection cycles.  
+>\# TYPE go_gc_duration_seconds summary  
 >go_gc_duration_seconds{quantile="0"} 3.068e-05  
 >go_gc_duration_seconds{quantile="0.25"} 3.2839e-05  
 >go_gc_duration_seconds{quantile="0.5"} 3.9345e-05  
@@ -82,6 +83,7 @@
 >vagrant@sandbox:\~$ sudo reboot  
 >vagrant@sandbox:\~$ ps -e | grep node_exporter  
 >    595 ?        00:00:00 node_exporter  
+>  
 >vagrant@sandbox:\~$ sudo systemctl status node-exporter  
 >● node-exporter.service - node_exporter for machine metrics  
 >     Loaded: loaded (/etc/systemd/system/node-exporter.service; enabled; vendor preset: e>  
@@ -101,7 +103,7 @@
 >vagrant@sandbox:\~$ cd /etc/default  
 >vagrant@sandbox:\~$ sudo nano /etc/default/node_exporter  
 >
-># This is environmentFile for node_exporter  
+>\# This is environmentFile for node_exporter  
 >EXTRA_OPTS=""  
 
 ## 2)  
@@ -140,7 +142,7 @@ node_network_transmit_bytes_total{device="lo"} 776
 >netdata 624 netdata   31u  IPv4  29801      0t0  TCP sandbox:19999->_gateway:62875 (ESTABLISHED)  
 
 В браузере на хосте видим метрики: `Used Swap, Disk Read, Disk Write, CPU, Net Inbound, Net Outbound, Used RAM`.  
-![](//~/devops-netology/03-sysadmin-04-os/netdata.png)  
+![netdata](//~/devops-netology/03-sysadmin-04-os/netdata.png "netdata.png")  
 
 ## 4)  
 Сообщения из лога событий загрузки ядра можно прочитать командой:  
@@ -158,8 +160,7 @@ node_network_transmit_bytes_total{device="lo"} 776
 >[  +0.000001] Booting paravirtualized kernel on KVM  
 >[  +0.000039] systemd[1]: Detected virtualization oracle.  
 
-Дополнение: команда `dmesg` показывает не только сообщения от ядра, но и другие сообщения от системных служб,  
-например, от системы инициализации `systemd`.  
+Дополнение: команда `dmesg` показывает не только сообщения от ядра, но и другие сообщения от системных служб, например, от системы инициализации `systemd`.  
 
 ## 5)  
 Утилита `sysctl` позволяет настроить параметры ядра системы во время выполнения. Все настраиваемые параметры  
@@ -211,7 +212,7 @@ node_network_transmit_bytes_total{device="lo"} 776
 >};  
 >:  
 Определяется функция `:()` с именем `:`, которая вызывает опять себя и передает данные в себя `: | :` в  
-фоновом режиме `&`. После `;` определение функции выполнено, и функция `:` запускается. Таким образом,  
+фоновом режиме `&`. После `;` определение функции выполнено, и функция `:` запускается. Таким образом, 
 каждый экземпляр функции `:` стартует две новых функции `:` и так далее, пока система не повиснет.  
 
 >vagrant@sandbox:\~$ :(){ :|:& };:  
