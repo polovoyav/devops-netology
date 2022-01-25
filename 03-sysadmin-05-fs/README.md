@@ -148,7 +148,7 @@ inode, который как раз и содержит информацию о 
 >      2094080 blocks super 1.2 [2/2] [UU]  
 >      [=================>...]  resync = 86.4% (1810176/2094080) finish=0.0min speed=201130K/sec  
 >  
->unused devices: <none>  
+>unused devices: \<none\>  
 
 Видим, что процесс создания raid идет.  
 
