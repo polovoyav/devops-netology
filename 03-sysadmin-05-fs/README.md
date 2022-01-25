@@ -95,11 +95,11 @@ inode, который как раз и содержит информацию о 
 >  
 >Old situation:  
 >  
-> >>> Script header accepted.  
-> >>> Script header accepted.  
-> >>> Script header accepted.  
-> >>> Script header accepted.  
-> >>> Created a new DOS disklabel with disk identifier 0xdaa8af1f.  
+> \>>> Script header accepted.  
+> \>>> Script header accepted.  
+> \>>> Script header accepted.  
+> \>>> Script header accepted.  
+> \>>> Created a new DOS disklabel with disk identifier 0xdaa8af1f.  
 >/dev/sdc1: Created a new partition 1 of type 'Linux' and of size 2 GiB.  
 >/dev/sdc2: Created a new partition 2 of type 'Linux' and of size 511 MiB.  
 >/dev/sdc3: Done.  
@@ -166,7 +166,7 @@ inode, который как раз и содержит информацию о 
 >md0 : active raid1 sdc1[1] sdb1[0]  
 >      2094080 blocks super 1.2 [2/2] [UU]  
 >  
->unused devices: <none>  
+>unused devices: \<none\>  
 
 ## 8)  
 >root@sandbox2:\~# pvcreate /dev/md0 /dev/md1  
@@ -239,16 +239,17 @@ the end of the command line. lvcreate will allocate physical extents only from t
 >  LV Write Access        read/write  
 >  LV Creation host, time sandbox2, 2022-01-24 16:20:42 +0000  
 >  LV Status              available  
->  # open                 0  
+>  \# open                 0  
 >  LV Size                100.00 MiB  
 >  Current LE             25  
 >  Segments               1  
 >  Allocation             inherit  
 >  Read ahead sectors     auto  
->  - currently set to     4096  
+>  \- currently set to     4096  
 >  Block device           253:1  
 
 Как итог:  
+
 >root@sandbox2:\~# pvs  
 >  PV         VG        Fmt  Attr PSize    PFree  
 >  /dev/md0   vg01      lvm2 a--    <2.00g  <2.00g  
@@ -279,10 +280,13 @@ the end of the command line. lvcreate will allocate physical extents only from t
 >root@sandbox2:\~# lsblk --fs  
 >  
 >NAME FSTYPE LABEL  UUID                                   FSAVAIL FSUSE% MOUNTPOINT  
+
 ...  
 
 >sdb  
+
 ...  
+
 >└─sdb2  
 >     linux_ sandbox2:1  
 >                   bc42faea-6d9f-fb9f-a739-7750e9031876  
@@ -291,7 +295,9 @@ the end of the command line. lvcreate will allocate physical extents only from t
 >    └─vg01-lv01  
 >       ext4          8ea88ba4-40c3-4fc2-a1bd-f5de769be660     85.8M     0% /tmp/new  
 >sdc  
+
 ...  
+
 >└─sdc2  
 >     linux_ sandbox2:1  
 >                   bc42faea-6d9f-fb9f-a739-7750e9031876  
@@ -377,7 +383,6 @@ the end of the command line. lvcreate will allocate physical extents only from t
 >      Raid Devices : 2  
 >     Total Devices : 2  
 >       Persistence : Superblock is persistent  
->  
 >       Update Time : Mon Jan 24 18:10:59 2022  
 >             State : clean  
 >    Active Devices : 2  
@@ -386,7 +391,6 @@ the end of the command line. lvcreate will allocate physical extents only from t
 >     Spare Devices : 0  
 >  
 >Consistency Policy : resync  
->  
 >              Name : sandbox2:0  (local to host sandbox2)  
 >              UUID : 56ab26ea:63949c5e:31c3954f:0ebd1177  
 >            Events : 17  
@@ -394,9 +398,11 @@ the end of the command line. lvcreate will allocate physical extents only from t
 >    Number   Major   Minor   RaidDevice State  
 >       0       8       17        0      active sync   /dev/sdb1  
 >       1       8       33        1      active sync   /dev/sdc1  
+
 	   
 >root@sandbox2:~# mdadm /dev/md0 --fail /dev/sdb1  
 >mdadm: set /dev/sdb1 faulty in /dev/md0  
+
 
 >root@sandbox2:~# mdadm --detail /dev/md0  
 >/dev/md0:  
@@ -408,7 +414,6 @@ the end of the command line. lvcreate will allocate physical extents only from t
 >      Raid Devices : 2  
 >     Total Devices : 2  
 >       Persistence : Superblock is persistent  
->  
 >       Update Time : Mon Jan 24 18:23:38 2022  
 >             State : clean, degraded  
 >    Active Devices : 1  
@@ -417,7 +422,6 @@ the end of the command line. lvcreate will allocate physical extents only from t
 >     Spare Devices : 0  
 >  
 >Consistency Policy : resync  
->  
 >              Name : sandbox2:0  (local to host sandbox2)  
 >              UUID : 56ab26ea:63949c5e:31c3954f:0ebd1177  
 >            Events : 19  
@@ -425,7 +429,6 @@ the end of the command line. lvcreate will allocate physical extents only from t
 >    Number   Major   Minor   RaidDevice State  
 >       -       0        0        0      removed  
 >       1       8       33        1      active sync   /dev/sdc1  
->  
 >       0       8       17        -      faulty   /dev/sdb1  
 
 ## 18)  
