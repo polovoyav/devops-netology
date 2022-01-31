@@ -1,4 +1,4 @@
-# 03-sysadmin-04-os  
+# 03-sysadmin-04-os-rework  
   
 ## Доработка задания 1.  
   
@@ -8,8 +8,9 @@
 ### Смотрим состояние запуска службы. 
    
 >vagrant@sandbox:~$ sudo systemctl status node-exporter  
->Warning: The unit file, source configuration file or drop-ins of node-exporter.ser>● node-exporter.service - node_exporter for machine metrics  
->     Loaded: loaded (/etc/systemd/system/node-exporter.service; enabled; vendor pr>     Active: active (running) since Mon 2022-01-31 12:24:40 UTC; 5min ago  
+>● node-exporter.service - node_exporter for machine metrics  
+>     Loaded: loaded (/etc/systemd/system/node-exporter.service; enabled; vendor pr  
+>     Active: active (running) since Mon 2022-01-31 12:24:40 UTC; 5min ago  
 >   Main PID: 827 (node_exporter)  
 >      Tasks: 4 (limit: 1071)  
 >     Memory: 14.2M  
@@ -43,13 +44,14 @@
   
 ### Перезапускаем службу, видим, что она запустилась с параметром.   
   
->vagrant@sandbox:~$ sudo systemctl daemon-reload  
->vagrant@sandbox:~$ sudo systemctl restart node-exporter  
->vagrant@sandbox:~$ sudo systemctl status node-exporter  
+>vagrant@sandbox:\~$ sudo systemctl daemon-reload  
+>vagrant@sandbox:\~$ sudo systemctl restart node-exporter  
+>vagrant@sandbox:\~$ sudo systemctl status node-exporter  
 >● node-exporter.service - node_exporter for machine metrics  
->     Loaded: loaded (/etc/systemd/system/node-exporter.service; enabled; vendor pr>     Active: active (running) since Mon 2022-01-31 12:32:18 UTC; 5s ago  
+>     Loaded: loaded (/etc/systemd/system/node-exporter.service; enabled; vendor pr  
+>   Active: active (running) since Mon 2022-01-31 12:32:18 UTC; 5s ago  
 >   Main PID: 1881 (node_exporter)  
 >      Tasks: 4 (limit: 1071)  
 >     Memory: 2.3M  
 >     CGroup: /system.slice/node-exporter.service  
->             └─1881 /usr/local/bin/node_exporter --log.level=debug
+>             └─1881 /usr/local/bin/node_exporter --log.level=debug  
